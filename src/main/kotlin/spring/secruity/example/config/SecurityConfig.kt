@@ -1,5 +1,6 @@
 package spring.secruity.example.config
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -14,7 +15,7 @@ import spring.secruity.example.security.MyAuthenticationProvider
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
-    @Bean
+    @Autowired
     fun provider() = MyAuthenticationProvider()
 
 
@@ -32,7 +33,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").loginProcessingUrl("/auth")
